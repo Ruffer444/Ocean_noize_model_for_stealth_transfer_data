@@ -5,7 +5,7 @@ from func_calculated.msg_to_bits_cipher  import *
 from func_plot.view_bits_cipher import*
 from func_calculated.noise_ocean_created import*
 from func_plot.view_noise_component import*
-
+from func_calculated.signal_processing import*
 
 if __name__ == "__main__":
 ## П.1 Начальные данные
@@ -66,13 +66,12 @@ if __name__ == "__main__":
     # # 5.6 QQ-plt
     # plot_ocean_noise_qq(noise_all, save=True, save_dir='output')
     # # 5.7 Все графики в одном окне (комплексный анализ)
-    plot_ocean_noise_all(noise_all, fs, save=False, save_dir='output', 
-                        filename='complete_noise_analysis.png')
+    # plot_ocean_noise_all(noise_all, fs, save=False, save_dir='output', 
+    #                    filename='complete_noise_analysis.png')
 
 ## П.6. Формирование линейно-частотной модуляции
+    signal, time = generate_lfm(params)
     
-
-
 
 
 
