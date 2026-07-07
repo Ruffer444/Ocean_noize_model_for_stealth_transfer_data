@@ -72,6 +72,11 @@ if __name__ == "__main__":
 ## П.6. Формирование линейно-частотной модуляции
     signal, time = generate_lfm(params)
     
+  
+
+
+    # print(signal)
+    # print(time)
 
 
 
