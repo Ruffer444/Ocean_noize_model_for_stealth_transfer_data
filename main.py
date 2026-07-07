@@ -50,6 +50,9 @@ if __name__ == "__main__":
     total_time = num_bits * T_sym * 1.5
     total_samples = round(total_time * fs)
     noise_all, _ = generate_ocean_noise(params, num_bits, 'all')
+    print(f"Шум сгенерирован")
+    print(f"Количество отсчетов: {len(noise_all)}")
+    print(f"Длительность: {len(noise_all)/fs:.2f} с")
 
 ## П.5 Визуализация данных
     # 5.1 Временная область (с сохранением в папку plots)
@@ -72,8 +75,8 @@ if __name__ == "__main__":
 ## П.6. Формирование линейно-частотной модуляции
     signal, time = generate_lfm(params)
     
-  
-
+     # Применяем эффекты канала и добавляем шум
+    result = combinate_signal_status(params, signal, noise_all, time)
 
     # print(signal)
     # print(time)
