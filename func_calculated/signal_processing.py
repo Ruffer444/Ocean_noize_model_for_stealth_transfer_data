@@ -3,31 +3,58 @@ import matplotlib.pyplot as plt
 from scipy.fft import fft, fftfreq, ifft, fftshift
 from scipy.signal import spectrogram
 
-def generate_lfm(params):
+def generate_lfm(params, encrypted):
     """
-    Генерируем ЛЧМ сигнал по параметрам системы
+    Генерация ЛЧМ сигнала для всей битовой последовательности.
+
+    Каждый бит занимает один символ длительностью T_sym.
+    На выходе получается один длинный сигнал.
     """
+
     f_start = params['f_start']
     f_end = params['f_end']
     T_sym = params['T_sym']
     fs = params['fs']
     N_sym = params['N_sym']
 
-    # Время модуляции
-    time = np.linspace(0, T_sym, N_sym)
-    
-    # Скорость смены частоты
+    # Время одного символа
+    t_symbol = np.linspace(0, T_sym, N_sym, endpoint=False)
+
+    # Скорость изменения частоты
     k = (f_end - f_start) / T_sym
-    
-    # Правильная формула фазы
-    phase = 2 * np.pi * (f_start * time + k * time**2 / 2)
-    signal = np.sin(phase)
-    
-    print(f"✓ Чистый ЛЧМ сигнал сгенерирован")
-    print(f"  Частоты: {params['f_start']/1000:.1f} - {params['f_end']/1000:.1f} кГц")
-    print(f"  Длительность сигнала: {params['T_sym']*1000:.2f} мс")
-    print(f"  Количество отсчетов: {N_sym}")
-    
+
+    signal_parts = []
+
+    for bit in encrypted:
+
+        # Базовый ЛЧМ
+        phase = 2 * np.pi * (
+            f_start * t_symbol +
+            0.5 * k * t_symbol**2
+        )
+
+        chirp = np.sin(phase)
+
+        # Простая двоичная модуляция:
+        # 1 -> обычный сигнал
+        # 0 -> инвертированный
+        if bit == 0:
+            chirp = -chirp
+
+        signal_parts.append(chirp)
+
+    # Склеиваем все символы
+    signal = np.concatenate(signal_parts)
+
+    # Временная ось всего сигнала
+    time = np.arange(len(signal)) / fs
+
+    print("Чистый ЛЧМ сигнал сформирован")
+    print(f"Количество бит: {len(encrypted)}")
+    print(f"Отсчетов на символ: {N_sym}")
+    print(f"Общее количество отсчетов: {len(signal)}")
+    print(f"Длительность: {len(signal)/fs:.3f} сек")
+
     return signal, time
 
 
@@ -113,7 +140,7 @@ def combinate_signal_status(params, signal, noise, time):
         dict: результаты обработки
     """
     print("\n" + "="*60)
-    print("ОБРАБОТКА СИГНАЛА В КАНАЛЕ")
+    print("\t\tОБРАБОТКА СИГНАЛА В КАНАЛЕ")
     print("="*60)
     
     # Сохраняем чистый сигнал
@@ -152,8 +179,27 @@ def combinate_signal_status(params, signal, noise, time):
         print("\n  ○ Эффект Доплера: ВЫКЛ")
     
     # 4. Добавляем шум
-    print("\n  ► Добавление шума:")
-    noisy_signal = processed_signal + noise
+    print("\n  Добавление шума:")
+    if len(noise) != len(processed_signal):
+        raise ValueError(
+            f"Размеры не совпадают: "
+            f"signal={len(processed_signal)}, noise={len(noise)}"
+        )
+    signal_power = np.mean(processed_signal**2) # мощность сигнала
+    snr_linear = 10 ** (params['SNR_target_dB'] / 10) # соотношение из дБ в линейную величину
+    noise_power_target = signal_power / snr_linear # какая мощность шума должна быть чтобы достичь требуемого SNR
+    noise = noise / np.sqrt(np.mean(noise**2)) # нормируем
+    noise = noise * np.sqrt(noise_power_target)
+
+    noisy_signal = processed_signal + noise # Наложение шума и сигнала
+    # проверка после масштабирования
+    real_snr = 10 * np.log10( 
+    np.mean(processed_signal**2) /
+    np.mean(noise**2)
+    )
+    print(f"SNR после масштабирования = {real_snr:.2f} дБ")
+
+
     print(f"    SNR: {params['SNR_target_dB']:.0f} дБ")
     print(f"    Мощность сигнала: {np.mean(processed_signal**2):.6f}")
     print(f"    Мощность шума: {np.mean(noise**2):.6f}")

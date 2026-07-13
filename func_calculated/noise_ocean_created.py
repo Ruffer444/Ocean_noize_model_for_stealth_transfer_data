@@ -32,7 +32,7 @@ def generate_ocean_noise(params, num_bits, components='all'):
     fs = params['fs']
     T_sym = params['T_sym']
 
-    total_time = num_bits * T_sym * 1.5
+    total_time = num_bits * T_sym 
     total_samples = round(total_time * fs)
     np.random.seed(42)
 

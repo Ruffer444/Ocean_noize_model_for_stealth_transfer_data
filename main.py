@@ -9,6 +9,8 @@ from func_calculated.signal_processing import*
 
 if __name__ == "__main__":
 ## П.1 Начальные данные
+    print('=============ПУНКТ №1. Очистка данных, подгрузка переменных.============= ')
+    print('\n\n')
     clear_console()             # Очистка данных в консоли
     load_modules()              # Инициализация дирикторий программы и соответсвенных исполняемых файлов .py
 
@@ -16,6 +18,8 @@ if __name__ == "__main__":
     get_system_parameters(params)   # Вывод информации системы
 
 ## П.2 Шифрование сообщения
+    print('\n\n')
+    print('=============ПУНКТ №2. Выбор метода шифрования. Создание битовой последовательности.============= ')
     message, key, bits_per_char, encypt_metod = params['msg'], params['key_bytes'], params['BITS_PER_CHAR'], 'chacha20'
     encrypted = message_to_bits(message, key, bits_per_char, encypt_metod)
     print(f'Результаты шифрования:\n{encrypted}')
@@ -25,6 +29,8 @@ if __name__ == "__main__":
     print(f"Результат сравнения исходника и дешифрованного сообщения: {'Совпадает' if message == decrypted else 'Не совпадает'}")
 
 ## П.3 Визуализация зашифрованной последовательности битов
+    print('\n\n')
+    print('=============ПУНКТ №3. Визуализация битов ============= ')
     # fig_1_bits_info = plot_bits(
     #         encrypted,
     #         "Битовое представление зашифрованного сообщения",
@@ -44,10 +50,14 @@ if __name__ == "__main__":
     # )
     
 ## П.4 Формирмирование модели шума морской среды
-    num_bits = len(params['msg']) * params['BITS_PER_CHAR']
+    print('\n\n')
+    print('=============ПУНКТ №4. Создание шума по модели. ============= ')
+    # num_bits = len(params['msg']) * params['BITS_PER_CHAR']
+    num_bits = len(encrypted)
+    print(f'Количетсво отсчетов : num_bits{num_bits}')
     fs = params['fs']
     T_sym = params['T_sym']
-    total_time = num_bits * T_sym * 1.5
+    total_time = num_bits * T_sym 
     total_samples = round(total_time * fs)
     noise_all, _ = generate_ocean_noise(params, num_bits, 'all')
     print(f"Шум сгенерирован")
@@ -55,6 +65,10 @@ if __name__ == "__main__":
     print(f"Длительность: {len(noise_all)/fs:.2f} с")
 
 ## П.5 Визуализация данных
+    print('\n\n')
+    print("\n" + "="*60)
+    print('\t\tПУНКТ №5. Визуализация компонентов шума и анализом ============= ')
+    print("="*60)
     # 5.1 Временная область (с сохранением в папку plots)
     # plot_ocean_noise_time(noise_all, fs, save=True, save_dir='output')
     # # 5.2 Фрагмент шума (с сохранением с конкретным именем)
@@ -73,17 +87,14 @@ if __name__ == "__main__":
     #                    filename='complete_noise_analysis.png')
 
 ## П.6. Формирование линейно-частотной модуляции
-    signal, time = generate_lfm(params)
-    
-     # Применяем эффекты канала и добавляем шум
+    print('\n\n')
+    print('=============ПУНКТ №6. Формирование ЛЧМ и внедрение данных в сигнал ============= ')
+    signal, time = generate_lfm(params, encrypted)
+    # noise_all = noise_all[:len(signal)]
+    print(f'Размер сигнала : {len(signal)}')
+    print(f'Размер шума    : {len(noise_all)}')
+    #  # Применяем эффекты канала и добавляем шум
     result = combinate_signal_status(params, signal, noise_all, time)
-
-    # print(signal)
-    # print(time)
-
-
-
-
 
 
 
