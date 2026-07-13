@@ -1,11 +1,12 @@
 from loader import *
 import matplotlib.pyplot as plt
-from system_parametrs_settings import set_system_parametrs, get_system_parameters
+from system_parametrs_settings import *
 from func_calculated.msg_to_bits_cipher  import * 
 from func_plot.view_bits_cipher import*
 from func_calculated.noise_ocean_created import*
 from func_plot.view_noise_component import*
 from func_calculated.signal_processing import*
+from func_plot.view_lfm_with_noise import*
 
 if __name__ == "__main__":
 ## П.1 Начальные данные
@@ -54,7 +55,7 @@ if __name__ == "__main__":
     print('=============ПУНКТ №4. Создание шума по модели. ============= ')
     # num_bits = len(params['msg']) * params['BITS_PER_CHAR']
     num_bits = len(encrypted)
-    print(f'Количетсво отсчетов : num_bits{num_bits}')
+    print(f'Количетсво отсчетов (num_bits) {num_bits}')
     fs = params['fs']
     T_sym = params['T_sym']
     total_time = num_bits * T_sym 
@@ -70,34 +71,53 @@ if __name__ == "__main__":
     print('\t\tПУНКТ №5. Визуализация компонентов шума и анализом ============= ')
     print("="*60)
     # 5.1 Временная область (с сохранением в папку plots)
-    # plot_ocean_noise_time(noise_all, fs, save=True, save_dir='output')
+    # plot_ocean_noise_time(noise_all, fs, save=False, save_dir='output')
     # # 5.2 Фрагмент шума (с сохранением с конкретным именем)
     # plot_ocean_noise_fragment(noise_all, fs, n_samples=1000, 
-    #                          save=True, save_dir='output', filename='fragment_noise.png')
+    #                          save=False, save_dir='output', filename='fragment_noise.png')
     # # 5.3 Гистограмма распределения (без сохранения)
     # plot_ocean_noise_histogram(noise_all, save=False)
     # # 5.4 Спектр (с сохранением)
-    # plot_ocean_noise_spectrum(noise_all, fs, save=True, save_dir='output')
+    # plot_ocean_noise_spectrum(noise_all, fs, save=False, save_dir='output')
     # # 5.5 Спектрограмма
-    # plot_ocean_noise_spectrogram(noise_all, fs, save=True, save_dir='output')
+    # plot_ocean_noise_spectrogram(noise_all, fs, save=False, save_dir='output')
     # # 5.6 QQ-plt
-    # plot_ocean_noise_qq(noise_all, save=True, save_dir='output')
+    # plot_ocean_noise_qq(noise_all, save=False, save_dir='output')
     # # 5.7 Все графики в одном окне (комплексный анализ)
     # plot_ocean_noise_all(noise_all, fs, save=False, save_dir='output', 
     #                    filename='complete_noise_analysis.png')
 
-## П.6. Формирование линейно-частотной модуляции
+## П.6. Формирование линейно-частотной модуляции с данными зашифрованными и наложение шума
     print('\n\n')
     print('=============ПУНКТ №6. Формирование ЛЧМ и внедрение данных в сигнал ============= ')
     signal, time = generate_lfm(params, encrypted)
     # noise_all = noise_all[:len(signal)]
+    if len(signal) == len(noise_all):
+        samples = len(signal)
+    else:
+        print('Нет совпадения в размерности сигнала и шума')
     print(f'Размер сигнала : {len(signal)}')
     print(f'Размер шума    : {len(noise_all)}')
     #  # Применяем эффекты канала и добавляем шум
-    result = combinate_signal_status(params, signal, noise_all, time)
+    combinate_signal = combinate_signal_status(params, signal, noise_all, time)
 
-
-
+## П.7. Визуализация ЛЧМ с шумом
+    view_lfm_noise_comparison(
+    signal,
+    noise_all,
+    combinate_signal,
+    n_samples=samples
+)
+    fig = view_power_spectrum(
+    signal,
+    combinate_signal,
+    fs
+)
+    view_spectrogram(
+        noise_all,
+        combinate_signal,
+        fs
+)
 
 # Выводим все графики
     plt.show()

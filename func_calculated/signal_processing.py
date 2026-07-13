@@ -185,11 +185,11 @@ def combinate_signal_status(params, signal, noise, time):
             f"Размеры не совпадают: "
             f"signal={len(processed_signal)}, noise={len(noise)}"
         )
-    signal_power = np.mean(processed_signal**2) # мощность сигнала
-    snr_linear = 10 ** (params['SNR_target_dB'] / 10) # соотношение из дБ в линейную величину
-    noise_power_target = signal_power / snr_linear # какая мощность шума должна быть чтобы достичь требуемого SNR
-    noise = noise / np.sqrt(np.mean(noise**2)) # нормируем
-    noise = noise * np.sqrt(noise_power_target)
+    # signal_power = np.mean(processed_signal**2) # мощность сигнала
+    # snr_linear = 10 ** (params['SNR_target_dB'] / 10) # соотношение из дБ в линейную величину
+    # noise_power_target = signal_power / snr_linear # какая мощность шума должна быть чтобы достичь требуемого SNR
+    # noise = noise / np.sqrt(np.mean(noise**2)) # нормируем
+    # noise = noise * np.sqrt(noise_power_target)
 
     noisy_signal = processed_signal + noise # Наложение шума и сигнала
     # проверка после масштабирования
