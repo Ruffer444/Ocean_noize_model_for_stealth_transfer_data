@@ -10,7 +10,7 @@ from func_plot.view_lfm_with_noise import*
 
 if __name__ == "__main__":
 ## П.1 Начальные данные
-    print('=============ПУНКТ №1. Очистка данных, подгрузка переменных.============= ')
+    print('ПУНКТ №1. Очистка данных, подгрузка переменных ')
     print('\n\n')
     clear_console()             # Очистка данных в консоли
     load_modules()              # Инициализация дирикторий программы и соответсвенных исполняемых файлов .py
@@ -20,7 +20,9 @@ if __name__ == "__main__":
 
 ## П.2 Шифрование сообщения
     print('\n\n')
-    print('=============ПУНКТ №2. Выбор метода шифрования. Создание битовой последовательности.============= ')
+    print("\n" + "="*60)
+    print('ПУНКТ №2. Выбор метода шифрования, создание битов')
+    print("="*60)
     message, key, bits_per_char, encypt_metod = params['msg'], params['key_bytes'], params['BITS_PER_CHAR'], 'chacha20'
     encrypted = message_to_bits(message, key, bits_per_char, encypt_metod)
     print(f'Результаты шифрования:\n{encrypted}')
@@ -31,28 +33,30 @@ if __name__ == "__main__":
 
 ## П.3 Визуализация зашифрованной последовательности битов
     print('\n\n')
-    print('=============ПУНКТ №3. Визуализация битов ============= ')
-    # fig_1_bits_info = plot_bits(
-    #         encrypted,
-    #         "Битовое представление зашифрованного сообщения",
-    #         "blue",
-    #         (9, 7),
-    #         save = False
-    #     )
+    print("\n" + "="*60)
+    print('ПУНКТ №3. Визуализация битов')
+    print("="*60)
+    fig_1_bits_info = plot_bits(
+            encrypted,
+            "Битовое представление зашифрованного сообщения",
+            "blue",
+            save = False
+        )
 
-    # # График сравнения исходых битов с зашифрованнными
-    # fig_2_bits_origin_and_encypt= plot_comparison(
-    #     message,
-    #     key,
-    #     encypt_metod,
-    #     bits_per_char,
-    #     (9, 7),
-    #     save = False
-    # )
+    # График сравнения исходых битов с зашифрованнными
+    fig_2_bits_origin_and_encypt= plot_comparison(
+        message,
+        key,
+        encypt_metod,
+        bits_per_char,
+        save = False
+    )
     
 ## П.4 Формирмирование модели шума морской среды
     print('\n\n')
-    print('=============ПУНКТ №4. Создание шума по модели. ============= ')
+    print("\n" + "="*60)
+    print('ПУНКТ №4. Создание шума по модели')
+    print("="*60)
     # num_bits = len(params['msg']) * params['BITS_PER_CHAR']
     num_bits = len(encrypted)
     print(f'Количетсво отсчетов (num_bits) {num_bits}')
@@ -68,7 +72,7 @@ if __name__ == "__main__":
 ## П.5 Визуализация данных
     print('\n\n')
     print("\n" + "="*60)
-    print('\t\tПУНКТ №5. Визуализация компонентов шума и анализом ============= ')
+    print('ПУНКТ №5. Визуализация компонентов шума и анализом')
     print("="*60)
     # 5.1 Временная область (с сохранением в папку plots)
     # plot_ocean_noise_time(noise_all, fs, save=False, save_dir='output')
@@ -89,35 +93,43 @@ if __name__ == "__main__":
 
 ## П.6. Формирование линейно-частотной модуляции с данными зашифрованными и наложение шума
     print('\n\n')
-    print('=============ПУНКТ №6. Формирование ЛЧМ и внедрение данных в сигнал ============= ')
-    signal, time = generate_lfm(params, encrypted)
-    # noise_all = noise_all[:len(signal)]
-    if len(signal) == len(noise_all):
-        samples = len(signal)
-    else:
-        print('Нет совпадения в размерности сигнала и шума')
-    print(f'Размер сигнала : {len(signal)}')
-    print(f'Размер шума    : {len(noise_all)}')
-    #  # Применяем эффекты канала и добавляем шум
-    combinate_signal = combinate_signal_status(params, signal, noise_all, time)
+    print("\n" + "="*60)
+    print('ПУНКТ №6. Формирование ЛЧМ и внедрение данных в сигнал ')
+    print("="*60)
+    # signal, time = generate_lfm(params, encrypted)
+    # # noise_all = noise_all[:len(signal)]
+    # if len(signal) == len(noise_all):
+    #     samples = len(signal)
+    # else:
+    #     print('Нет совпадения в размерности сигнала и шума')
+    # print(f'Размер сигнала : {len(signal)}')
+    # print(f'Размер шума    : {len(noise_all)}')
+    # #  # Применяем эффекты канала и добавляем шум
+    # combinate_signal = combinate_signal_status(params, signal, noise_all, time)
 
 ## П.7. Визуализация ЛЧМ с шумом
-    view_lfm_noise_comparison(
-    signal,
-    noise_all,
-    combinate_signal,
-    n_samples=samples
-)
-    fig = view_power_spectrum(
-    signal,
-    combinate_signal,
-    fs
-)
-    view_spectrogram(
-        noise_all,
-        combinate_signal,
-        fs
-)
+    print('\n\n')
+    print("\n" + "="*60)
+    print('ПУНКТ №7. Визуализируем шум и мощность сигнала')
+    print("="*60)
+#     view_lfm_noise_comparison(
+#     signal,
+#     noise_all,
+#     combinate_signal,
+#     n_samples=samples
+# )
+#     fig = view_power_spectrum(
+#     signal,
+#     combinate_signal,
+#     fs
+# )
+#     view_spectrogram(
+#         noise_all,
+#         combinate_signal,
+#         fs
+# )
+
+
 
 # Выводим все графики
     plt.show()

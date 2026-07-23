@@ -18,13 +18,14 @@ def get_output_path(filename):
     return os.path.join(output_dir, filename)
 
 
-def plot_bits(bits_array, title="Битовое представление", color="gray", figsize=(16, 7), save=False):
+def plot_bits(bits_array, title="Битовое представление", color="gray", save=False):
     """
     Функция для построения графика битов с выделением 0 и 1 кругами
     
     Параметры:
         save: bool - если True, сохраняет график в папку output
     """
+    figsize=figsize=(16, 7)
     bits_array = np.asarray(bits_array).flatten()
     x = np.arange(len(bits_array))                    
     plt.figure(figsize=figsize)
@@ -71,7 +72,7 @@ def plot_bits(bits_array, title="Битовое представление", col
     
 
 
-def plot_comparison(message, key_bytes, encrypt_method, bits_per_char=16, figsize=(16, 7), save=False):
+def plot_comparison(message, key_bytes, encrypt_method, bits_per_char=16, save=False):
     """
     Сравнивает оригинальное и зашифрованное сообщение на одном графике
     с выделением битов 0 и 1 кружечками
@@ -79,7 +80,7 @@ def plot_comparison(message, key_bytes, encrypt_method, bits_per_char=16, figsiz
     Параметры:
         save: bool - если True, сохраняет график в папку output
     """
-    
+    figsize=(16, 7)
     # Получаем биты
     original_bits = message_to_bits(message, key_bytes, bits_per_char, 'none')
     encrypted_bits = message_to_bits(message, key_bytes, bits_per_char, encrypt_method)
