@@ -47,7 +47,7 @@ def plot_ocean_noise_time(noise, fs, title="Шум морской среды (в
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, ax
 
 
@@ -87,7 +87,7 @@ def plot_ocean_noise_fragment(noise, fs, n_samples=1000, title="Фрагмент
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, ax
 
 
@@ -140,7 +140,7 @@ def plot_ocean_noise_histogram(noise, title="Гистограмма распре
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, ax
 
 
@@ -188,7 +188,7 @@ def plot_ocean_noise_spectrum(noise, fs, title="Спектр шума",
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, (ax1, ax2)
 
 
@@ -238,7 +238,7 @@ def plot_ocean_noise_spectrogram(noise, fs, title="Спектрограмма ш
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, ax
 
 
@@ -272,7 +272,7 @@ def plot_ocean_noise_qq(noise, title="QQ-plot (проверка нормальн
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, ax
 
 def plot_ocean_noise_components(noise_dict, fs, title="Компоненты шума", 
@@ -335,7 +335,7 @@ def plot_ocean_noise_components(noise_dict, fs, title="Компоненты шу
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, axes
 
 
@@ -420,5 +420,5 @@ def plot_ocean_noise_all(noise, fs, title="Полный анализ шума",
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"  График сохранен: {save_path}")
     
-    plt.show()
+    
     return fig, [ax1, ax2, ax3, ax4, ax5]

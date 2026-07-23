@@ -57,7 +57,6 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print('ПУНКТ №4. Создание шума по модели')
     print("="*60)
-    # num_bits = len(params['msg']) * params['BITS_PER_CHAR']
     num_bits = len(encrypted)
     print(f'Количетсво отсчетов (num_bits) {num_bits}')
     fs = params['fs']
@@ -75,21 +74,21 @@ if __name__ == "__main__":
     print('ПУНКТ №5. Визуализация компонентов шума и анализом')
     print("="*60)
     # 5.1 Временная область (с сохранением в папку plots)
-    # plot_ocean_noise_time(noise_all, fs, save=False, save_dir='output')
+    plot_ocean_noise_time(noise_all, fs, save=False, save_dir='output')
     # # 5.2 Фрагмент шума (с сохранением с конкретным именем)
-    # plot_ocean_noise_fragment(noise_all, fs, n_samples=1000, 
-    #                          save=False, save_dir='output', filename='fragment_noise.png')
+    plot_ocean_noise_fragment(noise_all, fs, n_samples=10000, 
+                             save=False, save_dir='output', filename='fragment_noise.png')
     # # 5.3 Гистограмма распределения (без сохранения)
-    # plot_ocean_noise_histogram(noise_all, save=False)
+    plot_ocean_noise_histogram(noise_all, save=False)
     # # 5.4 Спектр (с сохранением)
-    # plot_ocean_noise_spectrum(noise_all, fs, save=False, save_dir='output')
+    plot_ocean_noise_spectrum(noise_all, fs, save=False, save_dir='output')
     # # 5.5 Спектрограмма
-    # plot_ocean_noise_spectrogram(noise_all, fs, save=False, save_dir='output')
+    plot_ocean_noise_spectrogram(noise_all, fs, save=False, save_dir='output')
     # # 5.6 QQ-plt
-    # plot_ocean_noise_qq(noise_all, save=False, save_dir='output')
+    plot_ocean_noise_qq(noise_all, save=False, save_dir='output')
     # # 5.7 Все графики в одном окне (комплексный анализ)
-    # plot_ocean_noise_all(noise_all, fs, save=False, save_dir='output', 
-    #                    filename='complete_noise_analysis.png')
+    plot_ocean_noise_all(noise_all, fs, save=False, save_dir='output', 
+                       filename='complete_noise_analysis.png')
 
 ## П.6. Формирование линейно-частотной модуляции с данными зашифрованными и наложение шума
     print('\n\n')
