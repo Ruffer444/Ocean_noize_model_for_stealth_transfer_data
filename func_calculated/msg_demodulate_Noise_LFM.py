@@ -125,41 +125,46 @@ def fft_demodulate(received_signal, params):
     return demodulated_bits, dominant_freqs
 
 def envelope_demodulate(received_signal, params):
-    # Демодуляция через огибающую сигнала
-
-    # received_signal: принятый сигнал
-    # params: параметры системы
-
+    """
+    Демодуляция через огибающую сигнала
+    
+    Args:
+        received_signal: принятый сигнал
+        params: параметры системы
+    
+    Returns:
+        tuple: (демодулированные биты, огибающие)
+    """
     fs = params['fs']
     N_sym = params['N_sym']
-
+    
     total_samples = len(received_signal)
     num_bits = total_samples // N_sym
-
+    
     demodulated_bits = []
-    dominant_freqs = []
-
+    envelope_values = []
+    
     print("\n" + "="*60)
     print("\t\tДЕМОДУЛЯЦИЯ ЧЕРЕЗ ОГИБАЮЩУЮ")
     print("="*60)
-
+    
     # Вычисляем аналитический сигнал для получения огибающей
     from scipy.signal import hilbert
     analytic_signal = hilbert(received_signal)
     envelope = np.abs(analytic_signal)
-
+    
     for i in range(num_bits):
         start_idx = i * N_sym
         end_idx = start_idx + N_sym
-
+        
         envelope_segment = envelope[start_idx:end_idx]
-
+        
         # Средняя энергия в сегменте
         energy = np.mean(envelope_segment**2)
-
+        
         # Порог для определения бита
         threshold = np.median(envelope)
-
+        
         if energy > threshold:
             demodulated_bits.append(1)
         else:
