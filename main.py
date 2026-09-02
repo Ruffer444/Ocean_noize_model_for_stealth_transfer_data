@@ -95,39 +95,61 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print('ПУНКТ №6. Формирование ЛЧМ и внедрение данных в сигнал ')
     print("="*60)
-    # signal, time = generate_lfm(params, encrypted)
-    # # noise_all = noise_all[:len(signal)]
-    # if len(signal) == len(noise_all):
-    #     samples = len(signal)
-    # else:
-    #     print('Нет совпадения в размерности сигнала и шума')
-    # print(f'Размер сигнала : {len(signal)}')
-    # print(f'Размер шума    : {len(noise_all)}')
-    # #  # Применяем эффекты канала и добавляем шум
-    # combinate_signal = combinate_signal_status(params, signal, noise_all, time)
+    signal, time = generate_lfm(params, encrypted)
+    # noise_all = noise_all[:len(signal)]
+    if len(signal) == len(noise_all):
+        samples = len(signal)
+    else:
+        print('Нет совпадения в размерности сигнала и шума')
+    print(f'Размер сигнала : {len(signal)}')
+    print(f'Размер шума    : {len(noise_all)}')
+    #  # Применяем эффекты канала и добавляем шум
+    combinate_signal = combinate_signal_status(params, signal, noise_all, time)
 
 ## П.7. Визуализация ЛЧМ с шумом
     print('\n\n')
     print("\n" + "="*60)
     print('ПУНКТ №7. Визуализируем шум и мощность сигнала')
     print("="*60)
-#     view_lfm_noise_comparison(
-#     signal,
-#     noise_all,
-#     combinate_signal,
-#     n_samples=samples
-# )
-#     fig = view_power_spectrum(
-#     signal,
-#     combinate_signal,
-#     fs
-# )
-#     view_spectrogram(
-#         noise_all,
-#         combinate_signal,
-#         fs
-# )
+    view_lfm_noise_comparison(
+    signal,
+    noise_all,
+    combinate_signal,
+    n_samples=samples
+)
+    fig = view_power_spectrum(
+    signal,
+    combinate_signal,
+    fs
+)
+    view_spectrogram(
+        noise_all,
+        combinate_signal,
+        fs
+)
 
+## П.8.  Декодирование данных в идеальном случае (без эффектов)
+    print('Процесс декодировния данных из шума')
+
+
+## П.9. Наложение на сигнал эффектов 
+
+#  _П.9.1 Наложение на сигнал затухания 
+
+        # _П.9.1.1 Декодирование с затуханием
+
+
+#  _П.9.2 Наложение на сигнал доплера
+
+    # _П.9.2.1 Декодирование с доплером
+
+#  _П.9.3 Доплер и затухание
+
+    # _П.9.3.1 Декодирование при доплере и затухании сразу
+
+
+## П.10 Анализ возможности улучшить результаты
+    # 
 
 
 # Выводим все графики

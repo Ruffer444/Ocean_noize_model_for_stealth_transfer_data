@@ -80,7 +80,7 @@ def plot_comparison(message, key_bytes, encrypt_method, bits_per_char=16, save=F
     Параметры:
         save: bool - если True, сохраняет график в папку output
     """
-    figsize=(16, 7)
+    figsize=(9, 7)
     # Получаем биты
     original_bits = message_to_bits(message, key_bytes, bits_per_char, 'none')
     encrypted_bits = message_to_bits(message, key_bytes, bits_per_char, encrypt_method)
