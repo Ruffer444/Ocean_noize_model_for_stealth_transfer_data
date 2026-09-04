@@ -209,3 +209,58 @@ def calculate_ber(original_bits, demodulated_bits):
     
     return ber
 
+
+def bit_synchronization(received_signal, params):
+    """
+    Синхронизация битов - поиск оптимального смещения
+    
+    Args:
+        received_signal: принятый сигнал
+        params: параметры системы
+    
+    Returns:
+        tuple: (синхронизированный сигнал, оптимальное смещение)
+    """
+    fs = params['fs']
+    N_sym = params['N_sym']
+    f_start = params['f_start']
+    f_end = params['f_end']
+    T_sym = params['T_sym']
+    
+    # Создаем опорный сигнал для поиска синхронизации
+    t_symbol = np.linspace(0, T_sym, N_sym, endpoint=False)
+    k = (f_end - f_start) / T_sym
+    phase = 2 * np.pi * (f_start * t_symbol + 0.5 * k * t_symbol**2)
+    reference_chirp = np.sin(phase)
+    
+    # Ищем оптимальное смещение
+    best_offset = 0
+    best_correlation = -np.inf
+    
+    # Проверяем смещения от 0 до N_sym
+    for offset in range(N_sym):
+        # Вычисляем корреляцию с первым символом
+        if offset + N_sym <= len(received_signal):
+            segment = received_signal[offset:offset + N_sym]
+            correlation = np.sum(segment * reference_chirp) / N_sym
+            
+            if correlation > best_correlation:
+                best_correlation = correlation
+                best_offset = offset
+    
+    print(f"\n" + "="*60)
+    print("\t\tСИНХРОНИЗАЦИЯ")
+    print("="*60)
+    print(f"  Оптимальное смещение: {best_offset} отсчетов ({best_offset/fs:.6f} сек)")
+    print(f"  Максимальная корреляция: {best_correlation:.4f}")
+    
+    # Обрезаем сигнал с учетом оптимального смещения
+    synchronized_signal = received_signal[best_offset:]
+    
+    return synchronized_signal, best_offset
+
+
+
+
+
+
