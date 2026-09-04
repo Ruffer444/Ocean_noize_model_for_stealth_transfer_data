@@ -1,23 +1,92 @@
-import sys
-import os
+# import sys
+# import os
 
-def load_modules():
-    """Просто загружает модули из папок func_plot и func_print"""
+# def load_modules():
+#     """Просто загружает модули из папок func_plot и func_print"""
     
-    # Добавляем пути к папкам
-    sys.path.append('func_plot')
-    sys.path.append('func_calculated')
+#     # Добавляем пути к папкам
+#     sys.path.append('func_plot')
+#     sys.path.append('func_calculated')
     
-    # Импортируем модули
-    import func_plot
-    import func_calculated
-    print('Модули импортированы! Работа программы начинается )))')
-    # Возвращаем их, чтобы использовать
-    return func_plot, func_calculated
+#     # Импортируем модули
+#     import func_plot
+#     import func_calculated
+#     print('Модули импортированы! Работа программы начинается )))')
+#     # Возвращаем их, чтобы использовать
+#     return func_plot, func_calculated
+
+# def clear_console():
+#     "Очистка данных при запуске. "
+#     os.system('cls' if os.name == 'nt' else 'clear')
+
+import os
+import sys
+
 
 def clear_console():
-    "Очистка данных при запуске. "
+    """Очистка консоли."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
+def load_modules():
+    """
+    Автоматически импортирует все функции из:
+        func_calculated/
+        func_plot/
+
+    Аналогично ручному:
+        from module import *
+    """
+
+    folders = [
+        'func_calculated',
+        'func_plot'
+    ]
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Доступ к namespace вызывающего модуля (main.py)
+    caller_globals = sys._getframe(1).f_globals
+
+    for folder in folders:
+
+        folder_path = os.path.join(base_dir, folder)
+
+        if not os.path.isdir(folder_path):
+            print(f'Х Папка не найдена: {folder}')
+            continue
+
+        # Добавляем путь к папке
+        if folder_path not in sys.path:
+            sys.path.insert(0, folder_path)
+
+        for filename in os.listdir(folder_path):
+
+            if not filename.endswith('.py'):
+                continue
+
+            if filename.startswith('_'):
+                continue
+
+            module_name = filename[:-3]
+
+            try:
+
+                # Импортируем модуль
+                module = __import__(module_name)
+
+                # Аналог from module import *
+                for name in dir(module):
+
+                    if not name.startswith('_'):
+                        caller_globals[name] = getattr(module, name)
+
+                print(f'✓ Загружен: {folder}/{filename}')
+
+            except Exception as error:
+
+                print(f'✗ Ошибка: {folder}/{filename}')
+                print(f'  {error}')
+
+    print('\n+ Все функции автоматически загружены!')
 

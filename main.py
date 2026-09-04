@@ -1,15 +1,9 @@
 from loader import *
 import matplotlib.pyplot as plt
 from system_parametrs_settings import *
-from func_calculated.msg_to_bits_cipher  import * 
-from func_plot.view_bits_cipher import*
-from func_calculated.noise_ocean_created import*
-from func_plot.view_noise_component import*
-from func_calculated.signal_processing import*
-from func_plot.view_lfm_with_noise import*
 
-from func_calculated.msg_demodulate_Noise_LFM import 
-from func_plot.view_demodulation_results import
+from func_calculated.msg_demodulate_Noise_LFM import* 
+# from func_plot.view_decmodulation_results import*
 
 if __name__ == "__main__":
 ## П.1 Начальные данные
@@ -156,5 +150,5 @@ if __name__ == "__main__":
 
 
 # Выводим все графики
-    plt.show()
+    # plt.show()
     
