@@ -1,24 +1,3 @@
-# import sys
-# import os
-
-# def load_modules():
-#     """Просто загружает модули из папок func_plot и func_print"""
-    
-#     # Добавляем пути к папкам
-#     sys.path.append('func_plot')
-#     sys.path.append('func_calculated')
-    
-#     # Импортируем модули
-#     import func_plot
-#     import func_calculated
-#     print('Модули импортированы! Работа программы начинается )))')
-#     # Возвращаем их, чтобы использовать
-#     return func_plot, func_calculated
-
-# def clear_console():
-#     "Очистка данных при запуске. "
-#     os.system('cls' if os.name == 'nt' else 'clear')
-
 import os
 import sys
 
@@ -81,11 +60,11 @@ def load_modules():
                     if not name.startswith('_'):
                         caller_globals[name] = getattr(module, name)
 
-                print(f'✓ Загружен: {folder}/{filename}')
+                print(f'+ Загружен: {folder}/{filename}')
 
             except Exception as error:
 
-                print(f'✗ Ошибка: {folder}/{filename}')
+                print(f'Х Ошибка: {folder}/{filename}')
                 print(f'  {error}')
 
     print('\n+ Все функции автоматически загружены!')

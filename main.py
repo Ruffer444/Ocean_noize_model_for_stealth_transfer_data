@@ -2,7 +2,7 @@ from loader import *
 import matplotlib.pyplot as plt
 from system_parametrs_settings import *
 
-from func_calculated.msg_demodulate_Noise_LFM import* 
+# from func_calculated.msg_demodulate_Noise_LFM import* 
 # from func_plot.view_decmodulation_results import*
 
 if __name__ == "__main__":
