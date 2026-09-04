@@ -8,6 +8,9 @@ from func_plot.view_noise_component import*
 from func_calculated.signal_processing import*
 from func_plot.view_lfm_with_noise import*
 
+from func_calculated.msg_demodulate_Noise_LFM import 
+from func_plot.view_demodulation_results import
+
 if __name__ == "__main__":
 ## П.1 Начальные данные
     print('ПУНКТ №1. Очистка данных, подгрузка переменных ')
@@ -130,7 +133,7 @@ if __name__ == "__main__":
 
 ## П.8.  Декодирование данных в идеальном случае (без эффектов)
     print('Процесс декодировния данных из шума')
-
+    # synchronized_clean, offset_clean = bit_synchronization(signal, params)
 
 ## П.9. Наложение на сигнал эффектов 
 

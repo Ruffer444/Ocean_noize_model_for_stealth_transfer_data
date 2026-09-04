@@ -1,0 +1,64 @@
+
+def plot_demodulation_results(original_signal,  received_signal, demodulated_bits, 
+                              original_bits, params, title="Результаты демодуляции"):
+# Функция визуализации данных после демодуляции
+        # original_signal: исходный сигнал
+        # received_signal: принятый сигнал
+        # demodulated_bits: демодулированные биты
+        # original_bits: исходные биты
+        # params: параметры системы
+        # title: заголовок графика                              
+
+    fs = params['fs']
+    
+    fig, axes = plt.subplots(4, 1, figsize=(15,12))
+
+    # 1. исходный и принятый сигнал
+    axes[0].plot(original_signal[:1000], 'b-', label='Исходный', alpha=0.7)
+    axes[0].plot(reseived_signal[:1000], 'r-', label='Принятый', alpha=0.7)
+    axes[0].set_title('Сигнал (первые 1000 отсчетов)'))
+    axes[0].set_xlabel('Отсчеты')
+    axes[0].set_ylabel('Амплитуда')
+    axes[0].legend()
+    axes[0].grid(True, alpha=0.3)
+
+    # 2. Спектр принятого сигнала
+    fft_signal = np.abs(fft(received_signal))
+    freqs = np.fft.fftfreq(len(received_signal),1/fs)
+    mask = freqs > 0
+    
+    axes[1].plot(freqs[mask], fft_signal[mask], 'g-')
+    axes[1].set_title('Спектр принятого сигнала')
+    axes[1].set_xlabel('Частота (Гц)')
+    axes[1].set_ylabel('Амплитуда')
+    axes[1].set_xlim([0, 30000])  # Ограничиваем диапазон
+    axes[1].grid(True, alpha=0.3)
+
+    # 3. Исходные и демодулированные биты
+    axes[2].step(range(len(original_bits)),original_bits, 'b-', where='post', label='Исходные', linewidth=2)
+    axes[2].step(range(len(demodulated_bits)), demodulated_bits, 'r--', where='post', 
+                 label='Демодулированные', linewidth=2)
+    axes[2].set_title('Сравнение битов')
+    axes[2].set_xlabel('Номер бита')
+    axes[2].set_ylabel('Значение')
+    axes[2].set_ylim([-0.2, 1.2])
+    axes[2].legend()
+    axes[2].grid(True, alpha=0.3)
+
+    # 4. Ошибки
+     errors = [1 if i < len(original_bits) and i < len(demodulated_bits) 
+              and original_bits[i] != demodulated_bits[i] else 0 
+              for i in range(max(len(original_bits), len(demodulated_bits)))]
+    
+    axes[3].stem(range(len(errors)), errors, 'r-', basefmt=' ')
+    axes[3].set_title('Ошибки')
+    axes[3].set_xlabel('Номер бита')
+    axes[3].set_ylabel('Ошибка')
+    axes[3].grid(True, alpha=0.3)
+    
+    plt.suptitle(title, fontsize=16)
+    plt.tight_layout()
+
+
+
+
