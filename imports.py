@@ -1,0 +1,27 @@
+# Файл с предобъявленными переменными
+message_to_bits = None
+bits_to_message = None
+generate_ocean_noise = None
+generate_lfm = None
+combinate_signal_status = None
+plot_bits = None
+plot_comparison = None
+plot_ocean_noise_time = None
+plot_ocean_noise_fragment = None
+plot_ocean_noise_histogram = None
+plot_ocean_noise_spectrum = None
+plot_ocean_noise_spectrogram = None
+plot_ocean_noise_qq = None
+plot_ocean_noise_all = None
+view_lfm_noise_comparison = None
+view_power_spectrum = None
+view_spectrogram = None
+apply_thorp = None
+apply_multipath = None
+apply_doppler = None
+matched_filter_demodulate = None
+fft_demodulate = None
+envelope_demodulate = None
+calculate_ber = None
+bit_synchronization = None
+plot_demodulation_results = None

@@ -1,4 +1,5 @@
 from loader import *
+from imports import *
 import matplotlib.pyplot as plt
 from system_parametrs_settings import *
 
@@ -147,5 +148,5 @@ if __name__ == "__main__":
 
 
 # Выводим все графики
-    plt.show()
+    # plt.show()
     
