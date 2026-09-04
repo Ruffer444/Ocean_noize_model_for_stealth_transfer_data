@@ -3,20 +3,19 @@ import sys
 
 
 def clear_console():
-    """Очистка консоли."""
+    # Очистка консоли
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def load_modules():
-    """
-    Автоматически импортирует все функции из:
-        func_calculated/
-        func_plot/
+    
+    # Автоматически импортирует все функции из:
+    #     func_calculated/
+    #     func_plot/
 
-    Аналогично ручному:
-        from module import *
-    """
-
+    # Аналогично ручному:
+    #     from module import *
+    
     folders = [
         'func_calculated',
         'func_plot'
