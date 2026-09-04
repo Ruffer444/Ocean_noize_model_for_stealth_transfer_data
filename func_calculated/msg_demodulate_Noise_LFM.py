@@ -176,4 +176,36 @@ def envelope_demodulate(received_signal, params):
     
     return demodulated_bits, envelope_values
 
+def calculate_ber(original_bits, demodulated_bits):
+    """
+    Расчет битовой ошибки (BER)
+    
+    Args:
+        original_bits: исходные биты
+        demodulated_bits: демодулированные биты
+    
+    Returns:
+        float: BER (bit error rate)
+    """
+    if len(original_bits) != len(demodulated_bits):
+        print(f"  ВНИМАНИЕ: Разное количество бит!")
+        print(f"  Исходных: {len(original_bits)}, Демодулированных: {len(demodulated_bits)}")
+        # Обрезаем до минимальной длины
+        min_len = min(len(original_bits), len(demodulated_bits))
+        original_bits = original_bits[:min_len]
+        demodulated_bits = demodulated_bits[:min_len]
+    
+    errors = sum(1 for i in range(len(original_bits)) 
+                 if original_bits[i] != demodulated_bits[i])
+    
+    ber = errors / len(original_bits) if len(original_bits) > 0 else 1.0
+    
+    print(f"\n" + "="*60)
+    print(f"\t\tРЕЗУЛЬТАТЫ ДЕМОДУЛЯЦИИ")
+    print("="*60)
+    print(f"  Количество ошибок: {errors}")
+    print(f"  BER: {ber:.6f} ({ber*100:.2f}%)")
+    print(f"  Правильных бит: {len(original_bits) - errors}/{len(original_bits)}")
+    
+    return ber
 
