@@ -128,23 +128,29 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print('ПУНКТ №8. Декодирование данных в идеальном случае')
     print("="*60)
-
     # 8.1 Синхронизация
     synchronized_clean, offset_clean = bit_synchronization(
         signal,
         params
     )
-
     # 8.2 Демодуляция
     demodulated_clean, metrics_clean = matched_filter_demodulate(
         synchronized_clean,
         params
     )
-
     # 8.3 Расчёт BER
     ber_clean = calculate_ber(
         encrypted,
         demodulated_clean
+    )
+    # 8.4 Визуализация результатов
+    plot_demodulation_results(
+        original_signal=signal,
+        received_signal=synchronized_clean,
+        demodulated_bits=demodulated_clean,
+        original_bits=encrypted,
+        params=params,
+        
     )
 ## П.9. Наложение на сигнал эффектов 
 
