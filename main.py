@@ -124,9 +124,28 @@ if __name__ == "__main__":
 )
 
 ## П.8.  Декодирование данных в идеальном случае (без эффектов)
-    print('Процесс декодировния данных из шума')
-    # synchronized_clean, offset_clean = bit_synchronization(signal, params)
+    print('\n\n')
+    print("\n" + "="*60)
+    print('ПУНКТ №8. Декодирование данных в идеальном случае')
+    print("="*60)
 
+    # 8.1 Синхронизация
+    synchronized_clean, offset_clean = bit_synchronization(
+        signal,
+        params
+    )
+
+    # 8.2 Демодуляция
+    demodulated_clean, metrics_clean = matched_filter_demodulate(
+        synchronized_clean,
+        params
+    )
+
+    # 8.3 Расчёт BER
+    ber_clean = calculate_ber(
+        encrypted,
+        demodulated_clean
+    )
 ## П.9. Наложение на сигнал эффектов 
 
 #  _П.9.1 Наложение на сигнал затухания 
@@ -148,5 +167,5 @@ if __name__ == "__main__":
 
 
 # Выводим все графики
-    # plt.show()
+    plt.show()
     
