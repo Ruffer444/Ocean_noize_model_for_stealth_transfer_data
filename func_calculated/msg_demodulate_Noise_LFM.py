@@ -288,6 +288,3 @@ def bit_synchronization(received_signal, params):
 
 
 
-
-
-

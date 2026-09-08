@@ -25,3 +25,4 @@ envelope_demodulate = None
 calculate_ber = None
 bit_synchronization = None
 plot_demodulation_results = None
+run_effects_analysis = None

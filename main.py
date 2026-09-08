@@ -31,21 +31,21 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print('ПУНКТ №3. Визуализация битов')
     print("="*60)
-    fig_1_bits_info = plot_bits(
-            encrypted,
-            "Битовое представление зашифрованного сообщения",
-            "blue",
-            save = False
-        )
+    # fig_1_bits_info = plot_bits(
+    #         encrypted,
+    #         "Битовое представление зашифрованного сообщения",
+    #         "blue",
+    #         save = False
+    #     )
 
-    # График сравнения исходых битов с зашифрованнными
-    fig_2_bits_origin_and_encypt= plot_comparison(
-        message,
-        key,
-        encypt_metod,
-        bits_per_char,
-        save = False
-    )
+    # # График сравнения исходых битов с зашифрованнными
+    # fig_2_bits_origin_and_encypt= plot_comparison(
+    #     message,
+    #     key,
+    #     encypt_metod,
+    #     bits_per_char,
+    #     save = False
+    # )
     
 ## П.4 Формирмирование модели шума морской среды
     print('\n\n')
@@ -68,22 +68,22 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print('ПУНКТ №5. Визуализация компонентов шума и анализом')
     print("="*60)
-    # 5.1 Временная область (с сохранением в папку plots)
-    plot_ocean_noise_time(noise_all, fs, save=False, save_dir='output')
-    # # 5.2 Фрагмент шума (с сохранением с конкретным именем)
-    plot_ocean_noise_fragment(noise_all, fs, n_samples=10000, 
-                             save=False, save_dir='output', filename='fragment_noise.png')
-    # # 5.3 Гистограмма распределения (без сохранения)
-    plot_ocean_noise_histogram(noise_all, save=False)
-    # # 5.4 Спектр (с сохранением)
-    plot_ocean_noise_spectrum(noise_all, fs, save=False, save_dir='output')
-    # # 5.5 Спектрограмма
-    plot_ocean_noise_spectrogram(noise_all, fs, save=False, save_dir='output')
-    # # 5.6 QQ-plt
-    plot_ocean_noise_qq(noise_all, save=False, save_dir='output')
-    # # 5.7 Все графики в одном окне (комплексный анализ)
-    plot_ocean_noise_all(noise_all, fs, save=False, save_dir='output', 
-                       filename='complete_noise_analysis.png')
+    # # 5.1 Временная область
+    # plot_ocean_noise_time(noise_all, fs, save=False, save_dir='output')
+    # # # 5.2 Фрагмент шума
+    # plot_ocean_noise_fragment(noise_all, fs, n_samples=10000, 
+    #                          save=False, save_dir='output', filename='fragment_noise.png')
+    # # # 5.3 Гистограмма распределения
+    # plot_ocean_noise_histogram(noise_all, save=False)
+    # # # 5.4 Спектр (с сохранением)
+    # plot_ocean_noise_spectrum(noise_all, fs, save=False, save_dir='output')
+    # # # 5.5 Спектрограмма
+    # plot_ocean_noise_spectrogram(noise_all, fs, save=False, save_dir='output')
+    # # # 5.6 QQ-plt
+    # plot_ocean_noise_qq(noise_all, save=False, save_dir='output')
+    # # # 5.7 Все графики в одном окне (комплексный анализ)
+    # plot_ocean_noise_all(noise_all, fs, save=False, save_dir='output', 
+    #                    filename='complete_noise_analysis.png')
 
 ## П.6. Формирование линейно-частотной модуляции с данными зашифрованными и наложение шума
     print('\n\n')
@@ -106,22 +106,22 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print('ПУНКТ №7. Визуализируем шум и мощность сигнала')
     print("="*60)
-    view_lfm_noise_comparison(
-    signal,
-    noise_all,
-    combinate_signal,
-    n_samples=samples
-)
-    fig = view_power_spectrum(
-    signal,
-    combinate_signal,
-    fs
-)
-    view_spectrogram(
-        noise_all,
-        combinate_signal,
-        fs
-)
+#     view_lfm_noise_comparison(
+#     signal,
+#     noise_all,
+#     combinate_signal,
+#     n_samples=samples
+# )
+#     fig = view_power_spectrum(
+#     signal,
+#     combinate_signal,
+#     fs
+# )
+#     view_spectrogram(
+#         noise_all,
+#         combinate_signal,
+#         fs
+# )
 
 ## П.8.  Декодирование данных в идеальном случае (без эффектов)
     print('\n\n')
@@ -144,20 +144,70 @@ if __name__ == "__main__":
         demodulated_clean
     )
     # 8.4 Визуализация результатов
-    plot_demodulation_results(
-        original_signal=signal,
-        received_signal=synchronized_clean,
-        demodulated_bits=demodulated_clean,
-        original_bits=encrypted,
-        params=params,
+    # plot_demodulation_results(
+    #     original_signal=signal,
+    #     received_signal=synchronized_clean,
+    #     demodulated_bits=demodulated_clean,
+    #     original_bits=encrypted,
+    #     params=params,
         
-    )
+    # )
 ## П.9. Наложение на сигнал эффектов 
 
-#  _П.9.1 Наложение на сигнал затухания 
+#   П.9.1 Наложение на сигнал затухания 
+    print('\n\n')
+    print("\n" + "="*60)
+    print('ПУНКТ №9.1. Наложение на сигнал затухания')
+    print("="*60)
 
-        # _П.9.1.1 Декодирование с затуханием
+    original_attenuation = params['status_attenuation']
+    original_multipath = params['status_multipath']
+    original_doppler = params['status_doppler']
+    # Включаем только затухание
+    params['status_attenuation'] = True
+    params['status_multipath'] = False
+    params['status_doppler'] = False
 
+    # Генерируем сигнал с затуханием
+    signal_atten, time_atten = generate_lfm(params, encrypted)
+    result_atten = combinate_signal_status(params, signal_atten, noise_all, time_atten)
+
+    # Декодирование с затуханием
+    synchronized_atten, _ = bit_synchronization(result_atten['noisy'], params)
+    demodulated_atten, _ = matched_filter_demodulate(synchronized_atten, params)
+    ber_atten = calculate_ber(encrypted, demodulated_atten)
+    print(f"BER при затухании: {ber_atten:.6f}")
+
+    # График
+    plot_demodulation_results(
+        original_signal=signal_atten,
+        received_signal=synchronized_atten,
+        demodulated_bits=demodulated_atten,
+        original_bits=encrypted,
+        params=params,
+        title="Демодуляция с затуханием"
+    )
+        # Восстановление сообщения
+    print("\n" + "-"*60)
+    print("ВОССТАНОВЛЕННОЕ СООБЩЕНИЕ (С ЗАТУХАНИЕМ):")
+    print("-"*60)
+    try:
+        recovered_message_atten = bits_to_message(demodulated_atten, key, bits_per_char, encypt_metod)
+        print(f"Текст: {recovered_message_atten}")
+        print(f"Биты: {demodulated_atten[:50]}... (всего {len(demodulated_atten)} бит)")
+    except Exception as e:
+        print(f"Ошибка восстановления: {e}")
+        recovered_message_atten = "ОШИБКА"
+    
+    # Расчёт BER
+    ber_atten = calculate_ber(encrypted, demodulated_atten)
+    
+    print("\n" + "-"*60)
+    print("РЕЗУЛЬТАТЫ ДЕКОДИРОВАНИЯ (С ЗАТУХАНИЕМ):")
+    print("-"*60)
+    print(f"BER: {ber_atten:.6f}")
+    print(f"Ошибок: {int(ber_atten * len(encrypted))} из {len(encrypted)}")
+    print(f"Совпадение: {'✅ ДА' if recovered_message_atten == message else '❌ НЕТ'}")
 
 #  _П.9.2 Наложение на сигнал доплера
 
